@@ -18,21 +18,25 @@
         android:layout_height="wrap_content"
         android:hint="输入密码"/>
 
-    <CheckBox
-        android:id="@+id/autoLogon_checkBox"
-        android:layout_width="102dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checked="true"
-        android:layout_gravity="center_horizontal"
-        android:text="自动登陆" />
+        android:orientation="horizontal">
 
-    <CheckBox
-        android:id="@+id/rememberPassword_checkBox"
-        android:layout_width="102dp"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        android:layout_gravity="center_horizontal"
-        android:text="记住密码" />
+        <CheckBox
+            android:id="@+id/autoLogon_checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="自动登陆" />
+
+        <CheckBox
+            android:id="@+id/rememberPassword_checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="记住密码" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/logon_Button"
