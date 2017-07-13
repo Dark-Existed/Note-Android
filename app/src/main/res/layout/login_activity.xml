@@ -31,10 +31,10 @@
         android:hint="确认密码"/>
 
     <Button
-        android:id="@+id/login_Button"
+        android:id="@+id/loginAccount_Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="注册"/>
+        android:text="注册账号"/>
 
 </LinearLayout>
