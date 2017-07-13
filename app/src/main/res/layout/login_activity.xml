@@ -10,6 +10,7 @@
         android:id="@+id/email_login_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
         android:layout_gravity="center_vertical"
         android:hint="邮箱地址"/>
 
@@ -17,12 +18,16 @@
         android:id="@+id/password_login_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="密码"/>
+        android:layout_margin="15dp"
+        android:inputType="textPassword"
+        android:hint="密码" />
 
     <EditText
         android:id="@+id/cPassword_login_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:inputType="textPassword"
         android:hint="确认密码"/>
 
     <Button

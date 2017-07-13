@@ -25,14 +25,14 @@
 
         <CheckBox
             android:id="@+id/autoLogon_checkBox"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="自动登陆" />
 
         <CheckBox
             android:id="@+id/rememberPassword_checkBox"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="记住密码" />
