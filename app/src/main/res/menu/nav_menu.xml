@@ -4,9 +4,24 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_home"
-            android:title="主页"/>
+            android:id="@+id/nav_note"
+            android:icon="@drawable/ic_note"
+            android:title="笔记本"/>
 
+        <item
+            android:id="@+id/nav_recycle"
+            android:icon="@drawable/ic_recycle"
+            android:title="回收站"/>
+
+        <item
+            android:id="@+id/nav_sync"
+            android:icon="@drawable/ic_sync"
+            android:title="同步"/>
+
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/ic_setting"
+            android:title="设置"/>
 
     </group>
 
