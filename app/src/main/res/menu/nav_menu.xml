@@ -13,10 +13,14 @@
             android:icon="@drawable/ic_recycle"
             android:title="回收站"/>
 
+        <!--
+        暂时先取消 已有下拉刷新
         <item
             android:id="@+id/nav_sync"
             android:icon="@drawable/ic_sync"
             android:title="同步"/>
+
+        !-->
 
         <item
             android:id="@+id/nav_setting"

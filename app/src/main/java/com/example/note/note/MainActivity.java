@@ -30,24 +30,15 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
 
+        //设置toolbar上home的图标
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
-
-        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.nav_header, mDrawerLayout, false);
-        ImageView headPortrait = (ImageView) view.findViewById(R.id.headPortrait);
-        headPortrait.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, InformationActivity.class);
-                startActivity(intent);
-                // TODO: 2017/7/26  无法启动InformationActivity
-            }
-        });
-
-
+        
+        
+        //侧滑菜单的点击事件
         navView.setCheckedItem(R.id.nav_note);
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
             @Override
@@ -56,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_note:
                         mDrawerLayout.closeDrawers();
                         break;
+                    case R.id.nav_setting:
+                        Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                        startActivity(intent);
+                        mDrawerLayout.closeDrawers();// TODO: 2017/7/28 menu checkable需要调整 
+                        
                     // TODO: 2017/7/22 其他item的逻辑待添加
                     default:
                         break;
@@ -64,10 +60,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
-
+    //toolbar的菜单
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
