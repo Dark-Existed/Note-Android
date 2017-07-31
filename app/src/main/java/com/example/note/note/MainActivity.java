@@ -8,17 +8,32 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.note.note.adapter.NoteAdapter;
+import com.example.note.note.bean.Note;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+
+
+
+    //for test
+    private Note[] notes={new Note("标题","内容","时间")};
+    private List<Note> noteList = new ArrayList<>();
+    private NoteAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +75,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        initNote();
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new NoteAdapter(noteList);
+        recyclerView.setAdapter(adapter);
+
+
     }
 
     //toolbar的菜单
@@ -73,5 +97,12 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    //for test
+    private void initNote() {
+        noteList.clear();
+        noteList.add(notes[0]);
+    }
+
 
 }
