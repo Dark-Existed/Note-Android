@@ -1,7 +1,9 @@
 package com.example.note.note.bean;
 
 
-public class Note {
+import org.litepal.crud.DataSupport;
+
+public class Note extends DataSupport{
 
     private String title;
 

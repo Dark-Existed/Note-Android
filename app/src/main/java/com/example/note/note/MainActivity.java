@@ -2,6 +2,7 @@ package com.example.note.note;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,12 +13,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.example.note.note.adapter.NoteAdapter;
 import com.example.note.note.bean.Note;
+
+import org.litepal.tablemanager.Connector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
     private List<Note> noteList = new ArrayList<>();
     private NoteAdapter adapter;
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_main,menu);
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
-        
-        
+
         //侧滑菜单的点击事件
         navView.setCheckedItem(R.id.nav_note);
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
@@ -75,6 +85,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //添加笔记
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddActivity.class);
+                startActivity(intent);
+            }
+        });
 
         initNote();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
@@ -82,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new NoteAdapter(noteList);
         recyclerView.setAdapter(adapter);
-
 
     }
 
@@ -103,6 +121,5 @@ public class MainActivity extends AppCompatActivity {
         noteList.clear();
         noteList.add(notes[0]);
     }
-
 
 }
