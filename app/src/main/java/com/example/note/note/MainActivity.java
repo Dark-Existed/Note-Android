@@ -32,13 +32,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private DrawerLayout mDrawerLayout;
 
     private RecyclerView recyclerView;
 
-    //for test
-//    private Note[] notes={new Note("标题","内容","时间")};
-    private List<Note> noteList = DataSupport.findAll(Note.class);
+    private List<Note> noteList = DataSupport.order("time desc").find(Note.class);
     private NoteAdapter adapter;
 
     @Override
@@ -77,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, SettingActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();// TODO: 2017/7/28 menu checkable需要调整
-
                     // TODO: 2017/7/22 其他item的逻辑待添加
                     default:
                         break;
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        initNote();
+
         recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(layoutManager);
@@ -105,13 +103,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //restart时刷新数据
+    //resume时刷新数据
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onResume() {
+        super.onResume();
         initNote();
         adapter = new NoteAdapter(noteList);
         recyclerView.setAdapter(adapter);
+
     }
 
     //toolbar的菜单

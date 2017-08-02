@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -46,13 +47,24 @@ public class AddActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                saveNote();
+                finish();
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
 
     //获取时间
     public String getTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
-        String cuTime = dateFormat.format(date);
-        return cuTime;
+        return dateFormat.format(date);
     }
 
 
@@ -65,13 +77,10 @@ public class AddActivity extends AppCompatActivity {
 
     //保存数据（数据为空时不保存）
     private void saveNote() {
-
         String title;
         String content;
-
         title = titleEditText.getText().toString();
         content = contentEditText.getText().toString();
-
         if (!title.trim().isEmpty() || !content.trim().isEmpty()) {
             currTime = getTime();
             Note note = new Note();

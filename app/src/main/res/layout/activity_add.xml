@@ -16,8 +16,9 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:padding="14dp"
+        android:maxLines="1"
         android:hint="标题"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_margin="5dp"/>
 
     <TextView

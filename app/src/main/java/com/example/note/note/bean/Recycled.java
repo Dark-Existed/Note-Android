@@ -1,9 +1,9 @@
 package com.example.note.note.bean;
 
-
 import org.litepal.crud.DataSupport;
 
-public class Note extends DataSupport{
+
+public class Recycled extends DataSupport {
 
     private int id;
 
@@ -45,10 +45,10 @@ public class Note extends DataSupport{
         this.time = time;
     }
 
-    public Note() {
+    public Recycled() {
     }
 
-    public Note(String title, String content, String time) {
+    public Recycled(String title, String content, String time) {
         this.title = title;
         this.content = content;
         this.time = time;

@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -22,12 +23,13 @@ public class DetailActivity extends AppCompatActivity {
     public static final String NOTE_TITLE = "note_title";
     public static final String NOTE_CONTENT = "note_content";
 
-    private EditText titleEditView;
-    private TextView timeTextView;
-    private EditText contentEditView;
     private String title;
     private String time;
     private String content;
+    private EditText titleEditView;
+    private TextView timeTextView;
+    private EditText contentEditView;
+
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,20 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                updateNote();
+                finish();
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+
     //返回时更新数据
     @Override
     public void onBackPressed() {
@@ -85,8 +101,7 @@ public class DetailActivity extends AppCompatActivity {
     public String getTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
-        String cuTime = dateFormat.format(date);
-        return cuTime;
+        return dateFormat.format(date);
     }
 
 }
