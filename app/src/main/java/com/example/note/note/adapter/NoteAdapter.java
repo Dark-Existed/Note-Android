@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.note.note.DetailActivity;
 import com.example.note.note.R;
 import com.example.note.note.bean.Note;
 
@@ -48,7 +49,21 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
             mContext = parent.getContext();
         }
         View view = LayoutInflater.from(mContext).inflate(R.layout.note_item, parent, false);
-        return new ViewHolder(view);
+        final ViewHolder holder = new ViewHolder(view);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                Note note = mNoteList.get(position);
+                Intent intent = new Intent(mContext, DetailActivity.class);
+                // TODO: 2017/8/2 传递数据
+                intent.putExtra(DetailActivity.NOTE_TITLE, note.getTitle());
+                intent.putExtra(DetailActivity.NOTE_TIME, note.getTime());
+                intent.putExtra(DetailActivity.NOTE_CONTENT, note.getContent());
+                mContext.startActivity(intent);
+            }
+        });
+        return holder;
     }
 
 

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import com.example.note.note.adapter.NoteAdapter;
 import com.example.note.note.bean.Note;
 
+import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
 
 import java.util.ArrayList;
@@ -32,13 +34,12 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
 
-
+    private RecyclerView recyclerView;
 
     //for test
-    private Note[] notes={new Note("标题","内容","时间")};
-    private List<Note> noteList = new ArrayList<>();
+//    private Note[] notes={new Note("标题","内容","时间")};
+    private List<Note> noteList = DataSupport.findAll(Note.class);
     private NoteAdapter adapter;
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_setting:
                         Intent intent = new Intent(MainActivity.this, SettingActivity.class);
                         startActivity(intent);
-                        mDrawerLayout.closeDrawers();// TODO: 2017/7/28 menu checkable需要调整 
-                        
+                        mDrawerLayout.closeDrawers();// TODO: 2017/7/28 menu checkable需要调整
+
                     // TODO: 2017/7/22 其他item的逻辑待添加
                     default:
                         break;
@@ -96,12 +97,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
         initNote();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
+        recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new NoteAdapter(noteList);
         recyclerView.setAdapter(adapter);
 
+    }
+
+    //restart时刷新数据
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        initNote();
+        adapter = new NoteAdapter(noteList);
+        recyclerView.setAdapter(adapter);
     }
 
     //toolbar的菜单
@@ -111,15 +121,18 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
+            case R.id.search:
+                // TODO: 2017/8/2 跳转搜索界面 
+                break;
             default:
         }
         return true;
     }
 
-    //for test
+    //初始化数据
     private void initNote() {
         noteList.clear();
-        noteList.add(notes[0]);
+        noteList = DataSupport.order("time desc").find(Note.class);
     }
 
 }

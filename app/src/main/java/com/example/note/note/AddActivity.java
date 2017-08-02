@@ -60,20 +60,20 @@ public class AddActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        // TODO: 2017/8/1 需添检测数据是否发生改变
-        saveNote(true);
+        saveNote();
     }
 
-    //保存数据
-    private void saveNote(boolean isSave) {
-        if (isSave) {
-            String title;
-            String content;
+    //保存数据（数据为空时不保存）
+    private void saveNote() {
 
-            title = titleEditText.getText().toString();
-            content = contentEditText.getText().toString();
+        String title;
+        String content;
+
+        title = titleEditText.getText().toString();
+        content = contentEditText.getText().toString();
+
+        if (!title.trim().isEmpty() || !content.trim().isEmpty()) {
             currTime = getTime();
-
             Note note = new Note();
             note.setTitle(title);
             note.setTime(currTime);
@@ -81,7 +81,6 @@ public class AddActivity extends AppCompatActivity {
             note.save();
         }
     }
-
 
 }
 
