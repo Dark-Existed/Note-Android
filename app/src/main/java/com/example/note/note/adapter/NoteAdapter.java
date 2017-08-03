@@ -78,7 +78,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
                 dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO: 2017/8/2 移动笔记到回收站(现在是直接删除同时写入recycled数据库)
                         int position = holder.getAdapterPosition();
                         Intent intent = new Intent(mContext, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

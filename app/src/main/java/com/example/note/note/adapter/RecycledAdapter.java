@@ -56,7 +56,6 @@ public class RecycledAdapter extends RecyclerView.Adapter<RecycledAdapter.ViewHo
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2017/8/2 弹出dialog
                 AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
                 dialog.setTitle("是否将笔记彻底删除？");
                 dialog.setMessage("将笔记彻底删除?\n或者移动到笔记?");

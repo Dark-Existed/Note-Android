@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+            android:launchMode="singleTop"/>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,8 +24,10 @@
         <activity android:name=".SettingActivity" />
         <activity android:name=".AddActivity" />
         <activity android:name=".DetailActivity" />
-        <activity android:name=".RecycleBinActivity"
-            android:launchMode="singleTop"/>
+        <activity
+            android:name=".RecycleBinActivity"
+            android:launchMode="singleTop" />
+        <activity android:name=".SearchActivity"/>
     </application>
 
 </manifest>

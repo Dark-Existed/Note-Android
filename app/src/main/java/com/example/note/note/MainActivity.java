@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.note.note.adapter.NoteAdapter;
 import com.example.note.note.bean.Note;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navView;
 
     private List<Note> noteList = DataSupport.order("time desc").find(Note.class);
+
     private NoteAdapter adapter;
 
     @Override
@@ -125,7 +127,9 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.search:
-                // TODO: 2017/8/2 跳转搜索界面 
+                Toast.makeText(MainActivity.this,"click search",Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+//                startActivity(intent);
                 break;
             default:
         }
