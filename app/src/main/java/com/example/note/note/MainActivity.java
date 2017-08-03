@@ -32,10 +32,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private DrawerLayout mDrawerLayout;
 
     private RecyclerView recyclerView;
+
+    private NavigationView navView;
 
     private List<Note> noteList = DataSupport.order("time desc").find(Note.class);
     private NoteAdapter adapter;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
+        navView = (NavigationView) findViewById(R.id.nav_view);
 
         //设置toolbar上home的图标
         ActionBar actionBar = getSupportActionBar();
@@ -64,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //侧滑菜单的点击事件
-        navView.setCheckedItem(R.id.nav_note);
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -72,13 +72,16 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_note:
                         mDrawerLayout.closeDrawers();
                         break;
-                    case R.id.nav_setting:
-                        Intent intent = new Intent(MainActivity.this, SettingActivity.class);
-                        startActivity(intent);
-                        mDrawerLayout.closeDrawers();// TODO: 2017/7/28 menu checkable需要调整
-                    // TODO: 2017/7/22 其他item的逻辑待添加
-                    default:
+                    case R.id.nav_recycle:
+                        Intent rintent = new Intent(MainActivity.this, RecycleBinActivity.class);
+                        startActivity(rintent);
+                        mDrawerLayout.closeDrawers();
                         break;
+                    case R.id.nav_setting:
+                        Intent sintent = new Intent(MainActivity.this, SettingActivity.class);
+                        startActivity(sintent);
+                        mDrawerLayout.closeDrawers();
+                    default:
                 }
                 return true;
             }
@@ -107,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        navView.setCheckedItem(R.id.nav_note);
         initNote();
         adapter = new NoteAdapter(noteList);
         recyclerView.setAdapter(adapter);

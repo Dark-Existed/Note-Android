@@ -23,7 +23,8 @@
         <activity android:name=".SettingActivity" />
         <activity android:name=".AddActivity" />
         <activity android:name=".DetailActivity" />
-        <activity android:name=".RecycleBinActivity"></activity>
+        <activity android:name=".RecycleBinActivity"
+            android:launchMode="singleTop"/>
     </application>
 
 </manifest>

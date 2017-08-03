@@ -17,6 +17,7 @@ import com.example.note.note.DetailActivity;
 import com.example.note.note.MainActivity;
 import com.example.note.note.R;
 import com.example.note.note.bean.Note;
+import com.example.note.note.bean.Recycled;
 
 import org.litepal.crud.DataSupport;
 
@@ -30,20 +31,16 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
     private List<Note> mNoteList;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-
         CardView cardView;
         TextView title;
         TextView content;
         TextView time;
-
         public ViewHolder(View view){
             super(view);
             cardView = (CardView) view;
             title = (TextView) view.findViewById(R.id.noteTitle_TextView);
             content = (TextView) view.findViewById(R.id.noteContent_TextView);
             time = (TextView) view.findViewById(R.id.noteTime_TextView);
-
-
         }
     }
 
@@ -81,11 +78,17 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
                 dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO: 2017/8/2 移动笔记到回收站(现在是直接删除)
+                        // TODO: 2017/8/2 移动笔记到回收站(现在是直接删除同时写入recycled数据库)
                         int position = holder.getAdapterPosition();
                         Intent intent = new Intent(mContext, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         Note note = mNoteList.get(position);
+                        Recycled recycled = new Recycled();
+                        recycled.setTitle(note.getTitle());
+                        recycled.setTime(note.getTime());
+                        recycled.setContent(note.getContent());
+                        recycled.save();
+
                         DataSupport.delete(Note.class, note.getId());
                         mContext.startActivity(intent);
                     }
