@@ -127,9 +127,8 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.search:
-                Toast.makeText(MainActivity.this,"click search",Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
                 break;
             default:
         }

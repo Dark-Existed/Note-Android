@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 
 import com.example.note.note.adapter.NoteAdapter;
@@ -45,11 +46,16 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (!TextUtils.isEmpty(newText.trim())) {
-                    noteList = DataSupport.where("title = ?", newText.trim()).order("time desc").find(Note.class);
-
+                    noteList = DataSupport
+                            .where("title like ? or content like ?", "%"+newText.trim()+"%","%"+newText.trim()+"%")
+                            .order("time desc")
+                            .find(Note.class);
+                    adapter = new NoteAdapter(noteList);
+                    recyclerView.setAdapter(adapter);
                 } else {
-                    noteList.clear();
-                    adapter.notifyDataSetChanged();
+                    noteList = DataSupport.order("time desc").find(Note.class);
+                    adapter = new NoteAdapter(noteList);
+                    recyclerView.setAdapter(adapter);
                 }
                 return false;
             }
