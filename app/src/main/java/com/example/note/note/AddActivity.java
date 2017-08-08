@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,7 +27,7 @@ public class AddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.activity_detail);
 
         timeTextView = (TextView) findViewById(R.id.time_TextView);
         titleEditText = (EditText) findViewById(R.id.title_EditView);
@@ -37,7 +38,7 @@ public class AddActivity extends AppCompatActivity {
 
 
         //设置toolbar上back图标
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_add);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_detail);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -87,6 +88,7 @@ public class AddActivity extends AppCompatActivity {
             note.setTitle(title);
             note.setTime(currTime);
             note.setContent(content);
+            note.setRecycled(0);
             note.save();
         }
     }

@@ -1,6 +1,8 @@
 package com.example.note.note.bean;
 
 
+import android.text.SpannableStringBuilder;
+
 import org.litepal.crud.DataSupport;
 
 public class Note extends DataSupport{
@@ -12,6 +14,8 @@ public class Note extends DataSupport{
     private String content;
 
     private String time;
+
+    private int recycled;
 
     public int getId() {
         return id;
@@ -45,13 +49,22 @@ public class Note extends DataSupport{
         this.time = time;
     }
 
+    public int getRecycled() {
+        return recycled;
+    }
+
+    public void setRecycled(int recycled) {
+        this.recycled = recycled;
+    }
+
     public Note() {
     }
 
-    public Note(String title, String content, String time) {
+    public Note(String title, String content, String time,int recycled) {
         this.title = title;
         this.content = content;
         this.time = time;
+        this.recycled = recycled;
     }
 
 }
