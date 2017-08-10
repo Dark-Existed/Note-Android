@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.transform.Templates;
+
 public class DetailActivity extends AppCompatActivity {
 
     public static final String NOTE_TIME = "note_time";
@@ -54,7 +56,6 @@ public class DetailActivity extends AppCompatActivity {
     private List<StyleSpan> italicSpanList = new ArrayList<>();
     private List<UnderlineSpan> underlineSpanList = new ArrayList<>();
 
-    // TODO: 2017/8/10 单个格式的取消 覆盖同一地方设置格式
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,6 +138,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     //初始化各个格式的按钮
+    //加粗
     private void setupBold() {
         boldButton = (ImageButton) findViewById(R.id.bold);
         boldButton.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +147,7 @@ public class DetailActivity extends AppCompatActivity {
                 int start = contentEditView.getSelectionStart();
                 int end = contentEditView.getSelectionEnd();
                 StyleSpan span = new StyleSpan(Typeface.BOLD);
-                contentEditView.getEditableText().setSpan(span,start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                setFormat(start,end,boldSpanList,span);
                 isModify = true;
                 boldSpanList.add(span);
             }
@@ -158,7 +160,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
-
+    //斜体
     private void setupItalic() {
         italicButton = (ImageButton) findViewById(R.id.italic);
         italicButton.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +169,7 @@ public class DetailActivity extends AppCompatActivity {
                 int start = contentEditView.getSelectionStart();
                 int end = contentEditView.getSelectionEnd();
                 StyleSpan span = new StyleSpan(Typeface.ITALIC);
-                contentEditView.getEditableText().setSpan(span,start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                setFormat(start, end, italicSpanList, span);
                 isModify = true;
                 italicSpanList.add(span);
             }
@@ -180,7 +182,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
-
+    //下划线
     private void setupUnderline() {
         underlineButton = (ImageButton) findViewById(R.id.underline);
         underlineButton.setOnClickListener(new View.OnClickListener() {
@@ -189,7 +191,7 @@ public class DetailActivity extends AppCompatActivity {
                 int start = contentEditView.getSelectionStart();
                 int end = contentEditView.getSelectionEnd();
                 UnderlineSpan underlineSpan = new UnderlineSpan();
-                contentEditView.getEditableText().setSpan(underlineSpan,start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                setFormat(start, end, underlineSpanList, underlineSpan);
                 isModify = true;
                 underlineSpanList.add(underlineSpan);
             }
@@ -202,7 +204,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
-
+    //清除所有格式
     private void setupClear() {
         clearButton = (ImageButton) findViewById(R.id.clear);
         clearButton.setOnClickListener(new View.OnClickListener() {
@@ -230,6 +232,45 @@ public class DetailActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    //判断所添加的格式的位置并做出操作
+    private <T> void setFormat(int start, int end, List<T> list,T span) {
+        if (end < start) {
+            return;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            int mStart = contentEditView.getEditableText().getSpanStart(list.get(i));
+            int mEnd = contentEditView.getEditableText().getSpanEnd(list.get(i));
+            if (start == mStart && end == mEnd) {
+                //相同位置的取消格式
+                contentEditView.getEditableText().removeSpan(list.get(i));
+                list.remove(i);
+//                Toast.makeText(DetailActivity.this,"执行1",Toast.LENGTH_SHORT).show();
+                return;
+            } else if (start < mStart && end > mEnd) {
+                //覆盖过去的
+                contentEditView.getEditableText().setSpan(list.get(i), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                Toast.makeText(DetailActivity.this,"执行2",Toast.LENGTH_SHORT).show();
+                return;
+            } else if ((mStart < start && start < mEnd && mEnd < end) || (start < mStart && mStart < end && end < mEnd)) {
+                //部分重叠的
+                int minStart = start < mStart ? start : mStart;
+                int maxEnd = end > mEnd ? end : mEnd;
+                contentEditView.getEditableText().setSpan(list.get(i), minStart, maxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                Toast.makeText(DetailActivity.this, "执行3", Toast.LENGTH_SHORT).show();
+                return;
+            } else if ((mStart < start && end < mEnd) || (mStart < start && end < mEnd)) {
+                //在内部 分割成两个 // TODO: 2017/8/10 有问题待解决(不执行4 执行3)
+                contentEditView.getEditableText().setSpan(list.get(i), mStart, start, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                contentEditView.getEditableText().setSpan(span, end, mEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                list.add(span);
+//                Toast.makeText(DetailActivity.this, "执行4", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        contentEditView.getEditableText().setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        Toast.makeText(DetailActivity.this,"执行5",Toast.LENGTH_SHORT).show();
     }
 
     //将格式转换成json
@@ -264,6 +305,9 @@ public class DetailActivity extends AppCompatActivity {
         for (int i = 0;i<format.boldList.size();i++) {
             int start = format.boldList.get(i).start;
             int end = format.boldList.get(i).end;
+            if (start < 0 || end < 0) {
+                continue; //以防数据中有小于0的出现...
+            }
             StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
             contentEditView.getEditableText().setSpan(boldSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             boldSpanList.add(boldSpan);
@@ -271,6 +315,9 @@ public class DetailActivity extends AppCompatActivity {
         for (int i = 0;i<format.italicList.size();i++) {
             int start = format.italicList.get(i).start;
             int end = format.italicList.get(i).end;
+            if (start < 0 || end < 0) {
+                continue;
+            }
             StyleSpan italicSpan = new StyleSpan(Typeface.ITALIC);
             contentEditView.getEditableText().setSpan(italicSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             italicSpanList.add(italicSpan);
@@ -278,10 +325,14 @@ public class DetailActivity extends AppCompatActivity {
         for (int i=0;i<format.underlineList.size();i++) {
             int start = format.underlineList.get(i).start;
             int end = format.underlineList.get(i).end;
+            if (start < 0 || end < 0) {
+                continue;
+            }
             UnderlineSpan underlineSpan = new UnderlineSpan();
             contentEditView.getEditableText().setSpan(underlineSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             underlineSpanList.add(underlineSpan);
         }
     }
+
 
 }
