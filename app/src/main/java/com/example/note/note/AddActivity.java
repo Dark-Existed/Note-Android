@@ -240,7 +240,7 @@ public class AddActivity extends AppCompatActivity {
 //                Toast.makeText(DetailActivity.this, "执行3", Toast.LENGTH_SHORT).show();
                 return;
             } else if ((mStart < start && end < mEnd) || (mStart < start && end < mEnd)) {
-                //在内部 分割成两个 // TODO: 2017/8/10 有问题待解决(不执行4 执行3)
+                //在内部 分割成两个
                 contentEditText.getEditableText().setSpan(list.get(i), mStart, start, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 contentEditText.getEditableText().setSpan(span, end, mEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 list.add(span);
