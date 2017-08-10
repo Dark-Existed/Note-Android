@@ -63,6 +63,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
                 intent.putExtra(DetailActivity.NOTE_TITLE, note.getTitle());
                 intent.putExtra(DetailActivity.NOTE_TIME, note.getTime());
                 intent.putExtra(DetailActivity.NOTE_CONTENT, note.getContent());
+                intent.putExtra(DetailActivity.NOTE_FORMAT, note.getFormat());
                 mContext.startActivity(intent);
             }
         });

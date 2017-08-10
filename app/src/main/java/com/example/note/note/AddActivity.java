@@ -6,13 +6,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.note.note.bean.Note;
+import com.example.note.note.gson.Bold;
+import com.example.note.note.gson.Format;
+import com.example.note.note.gson.Italic;
+import com.example.note.note.gson.Underline;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.TooManyListenersException;
 
 public class AddActivity extends AppCompatActivity {
@@ -22,6 +31,9 @@ public class AddActivity extends AppCompatActivity {
     private TextView timeTextView;
     private EditText titleEditText;
     private EditText contentEditText;
+    private List<StyleSpan> boldSpanList = new ArrayList<>();
+    private List<StyleSpan> italicSpanList = new ArrayList<>();
+    private List<UnderlineSpan> underlineSpanList = new ArrayList<>();
 
 
     @Override
@@ -88,9 +100,35 @@ public class AddActivity extends AppCompatActivity {
             note.setTitle(title);
             note.setTime(currTime);
             note.setContent(content);
+            note.setFormat(transform());
             note.setRecycled(0);
             note.save();
         }
+    }
+
+    //将格式转换成json
+    private String transform() {
+        Format format = new Format();
+        for (int i = 0;i<boldSpanList.size();i++) {
+            Bold bold = new Bold();
+            bold.start = contentEditText.getEditableText().getSpanStart(boldSpanList.get(i));
+            bold.end = contentEditText.getEditableText().getSpanEnd(boldSpanList.get(i));
+            format.boldList.add(bold);
+        }
+        for (int i = 0;i<italicSpanList.size();i++) {
+            Italic italic = new Italic();
+            italic.start = contentEditText.getEditableText().getSpanStart(italicSpanList.get(i));
+            italic.end = contentEditText.getEditableText().getSpanEnd(italicSpanList.get(i));
+            format.italicList.add(italic);
+        }
+        for (int i = 0;i<underlineSpanList.size();i++) {
+            Underline underline = new Underline();
+            underline.start = contentEditText.getEditableText().getSpanStart(underlineSpanList.get(i));
+            underline.end = contentEditText.getEditableText().getSpanEnd(underlineSpanList.get(i));
+            format.underlineList.add(underline);
+        }
+        Gson gson = new Gson();
+        return gson.toJson(format);
     }
 
 }
