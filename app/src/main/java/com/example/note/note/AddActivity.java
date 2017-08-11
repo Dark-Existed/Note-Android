@@ -1,6 +1,5 @@
 package com.example.note.note;
 
-import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.note.note.bean.Note;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TooManyListenersException;
 
@@ -62,9 +62,9 @@ public class AddActivity extends AppCompatActivity {
 
     //获取时间
     public String getTime() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
-        return dateFormat.format(date);
+        return simpleDateFormat.format(date);
     }
 
 
