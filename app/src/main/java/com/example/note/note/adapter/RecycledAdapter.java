@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.example.note.note.R;
 import com.example.note.note.RecycleBinActivity;
 import com.example.note.note.bean.Note;
-import com.example.note.note.bean.Recycled;
 
 import org.litepal.crud.DataSupport;
 
@@ -25,7 +24,7 @@ public class RecycledAdapter extends RecyclerView.Adapter<RecycledAdapter.ViewHo
 
     private Context mContext;
 
-    private List<Recycled> mRecycledList;
+    private List<Note> mRecycledList;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
@@ -41,7 +40,7 @@ public class RecycledAdapter extends RecyclerView.Adapter<RecycledAdapter.ViewHo
         }
     }
 
-    public RecycledAdapter(List<Recycled> recycledList) {
+    public RecycledAdapter(List<Note> recycledList) {
         mRecycledList = recycledList;
     }
 
@@ -65,8 +64,8 @@ public class RecycledAdapter extends RecyclerView.Adapter<RecycledAdapter.ViewHo
                         int position = holder.getAdapterPosition();
                         Intent intent = new Intent(mContext, RecycleBinActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        Recycled recycled = mRecycledList.get(position);
-                        DataSupport.delete(Recycled.class, recycled.getId());
+                        Note recycled = mRecycledList.get(position);
+                        DataSupport.delete(Note.class, recycled.getId());
                         mContext.startActivity(intent);
                     }
                 });
@@ -76,13 +75,15 @@ public class RecycledAdapter extends RecyclerView.Adapter<RecycledAdapter.ViewHo
                         int position = holder.getAdapterPosition();
                         Intent intent = new Intent(mContext, RecycleBinActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        Recycled recycled = mRecycledList.get(position);
-                        Note note = new Note();
-                        note.setTitle(recycled.getTitle());
-                        note.setTime(recycled.getTime());
-                        note.setContent(recycled.getContent());
-                        note.save();
-                        DataSupport.delete(Recycled.class, recycled.getId());
+                        Note recycled = mRecycledList.get(position);
+                        recycled.setRecycled(0);
+                        recycled.save();
+//                        Note note = new Note();
+//                        note.setTitle(recycled.getTitle());
+//                        note.setTime(recycled.getTime());
+//                        note.setContent(recycled.getContent());
+//                        note.save();
+//                        DataSupport.delete(Note.class, recycled.getId());
                         mContext.startActivity(intent);
                     }
                 });
@@ -95,7 +96,7 @@ public class RecycledAdapter extends RecyclerView.Adapter<RecycledAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Recycled recycled = mRecycledList.get(position);
+        Note recycled = mRecycledList.get(position);
         holder.title.setText(recycled.getTitle());
         holder.content.setText(recycled.getContent());
         holder.time.setText(recycled.getTime());

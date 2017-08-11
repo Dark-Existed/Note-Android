@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private NavigationView navView;
 
-    private List<Note> noteList = DataSupport.order("time desc").find(Note.class);
+    private List<Note> noteList = DataSupport.where("recycled = ?","0").order("time desc").find(Note.class);
 
     private NoteAdapter adapter;
 
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
     //初始化数据
     private void initNote() {
         noteList.clear();
-        noteList = DataSupport.order("time desc").find(Note.class);
+        noteList = DataSupport.where("recycled = ?","0").order("time desc").find(Note.class);
     }
 
 }
