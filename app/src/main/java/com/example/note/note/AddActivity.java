@@ -2,12 +2,10 @@ package com.example.note.note;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
@@ -35,6 +33,7 @@ import com.example.note.note.gson.Superscript;
 import com.example.note.note.gson.Underline;
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -116,9 +115,9 @@ public class AddActivity extends AppCompatActivity {
 
     //获取时间
     public String getTime() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
-        return dateFormat.format(date);
+        return simpleDateFormat.format(date);
     }
 
 
