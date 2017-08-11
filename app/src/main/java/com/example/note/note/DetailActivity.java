@@ -1,6 +1,7 @@
 package com.example.note.note;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.ActionBar;
@@ -8,7 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
+import android.text.style.SubscriptSpan;
+import android.text.style.SuperscriptSpan;
 import android.text.style.UnderlineSpan;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,9 +24,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.note.note.bean.Note;
+import com.example.note.note.gson.BackgroundColor;
 import com.example.note.note.gson.Bold;
+import com.example.note.note.gson.ForegroundColor;
 import com.example.note.note.gson.Format;
 import com.example.note.note.gson.Italic;
+import com.example.note.note.gson.Strikethrough;
+import com.example.note.note.gson.Subscript;
+import com.example.note.note.gson.Superscript;
 import com.example.note.note.gson.Underline;
 import com.google.gson.Gson;
 
@@ -51,10 +62,20 @@ public class DetailActivity extends AppCompatActivity {
     private ImageButton italicButton;
     private ImageButton underlineButton;
     private ImageButton clearButton;
+    private ImageButton strikethroughButton;
+    private ImageButton foregroundcolorButton;
+    private ImageButton backgroundcolorButton;
+    private ImageButton superscriptButton;
+    private ImageButton subscriptButton;
 
     private List<StyleSpan> boldSpanList = new ArrayList<>();
     private List<StyleSpan> italicSpanList = new ArrayList<>();
     private List<UnderlineSpan> underlineSpanList = new ArrayList<>();
+    private List<StrikethroughSpan> strikethroughSpanList = new ArrayList<>();
+    private List<ForegroundColorSpan> foregroundColorSpanList = new ArrayList<>();
+    private List<BackgroundColorSpan> backgroundColorSpanList = new ArrayList<>();
+    private List<SuperscriptSpan> superscriptSpanList = new ArrayList<>();
+    private List<SubscriptSpan> subscriptSpanList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +101,11 @@ public class DetailActivity extends AppCompatActivity {
         setupBold();
         setupItalic();
         setupUnderline();
+        setupStrikethrough();
+        setupForegroundColor();
+        setupBackgroundColor();
+        setupSuperscript();
+        setupSubscript();
         setupClear();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_detail);
@@ -204,31 +230,161 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
+    //删除线
+    private void setupStrikethrough() {
+        strikethroughButton = (ImageButton) findViewById(R.id.strikethrough);
+        strikethroughButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int start = contentEditView.getSelectionStart();
+                int end = contentEditView.getSelectionEnd();
+                StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
+                setFormat(start,end,strikethroughSpanList,strikethroughSpan);
+                isModify = true;
+                strikethroughSpanList.add(strikethroughSpan);
+            }
+        });
+        strikethroughButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(DetailActivity.this,"删除线",Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+    }
+    //字体颜色（前景色）
+    private void setupForegroundColor() {
+        foregroundcolorButton = (ImageButton) findViewById(R.id.foregroundColor);
+        foregroundcolorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int start = contentEditView.getSelectionStart();
+                int end = contentEditView.getSelectionEnd();
+                ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#0099EE"));
+                setFormat(start, end, foregroundColorSpanList, foregroundColorSpan);
+                isModify = true;
+                foregroundColorSpanList.add(foregroundColorSpan);
+            }
+        });
+        foregroundcolorButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(DetailActivity.this,"字体颜色",Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+    }
+    //背景色
+    private void setupBackgroundColor() {
+        backgroundcolorButton = (ImageButton) findViewById(R.id.backgroundColor);
+        backgroundcolorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int start = contentEditView.getSelectionStart();
+                int end = contentEditView.getSelectionEnd();
+                BackgroundColorSpan backgroundColorSpan = new BackgroundColorSpan(Color.parseColor("#AC00FF30"));
+                setFormat(start, end, backgroundColorSpanList, backgroundColorSpan);
+                isModify = true;
+                backgroundColorSpanList.add(backgroundColorSpan);
+            }
+        });
+        backgroundcolorButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(DetailActivity.this,"背景颜色",Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+    }
+    //上标
+    private void setupSuperscript() {
+        superscriptButton = (ImageButton) findViewById(R.id.superscript);
+        superscriptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int start = contentEditView.getSelectionStart();
+                int end = contentEditView.getSelectionEnd();
+                SuperscriptSpan superscriptSpan = new SuperscriptSpan();
+                setFormat(start, end, superscriptSpanList, superscriptSpan);
+                isModify = true;
+                superscriptSpanList.add(superscriptSpan);
+            }
+        });
+        superscriptButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(DetailActivity.this,"上标",Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+    }
+    //下标
+    private void setupSubscript() {
+        subscriptButton = (ImageButton) findViewById(R.id.subscript);
+        subscriptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int start = contentEditView.getSelectionStart();
+                int end = contentEditView.getSelectionEnd();
+                SubscriptSpan subscriptSpan = new SubscriptSpan();
+                setFormat(start, end, subscriptSpanList, subscriptSpan);
+                isModify = true;
+                subscriptSpanList.add(subscriptSpan);
+            }
+        });
+        subscriptButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(DetailActivity.this,"下标",Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+    }
     //清除所有格式
     private void setupClear() {
         clearButton = (ImageButton) findViewById(R.id.clear);
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0;i<boldSpanList.size();i++) {
+                for (int i = 0; i < boldSpanList.size(); i++) {
                     contentEditView.getEditableText().removeSpan(boldSpanList.get(i));
                 }
-                for (int i = 0;i<italicSpanList.size();i++) {
+                for (int i = 0; i < italicSpanList.size(); i++) {
                     contentEditView.getEditableText().removeSpan(italicSpanList.get(i));
                 }
-                for (int i = 0;i<underlineSpanList.size();i++) {
+                for (int i = 0; i < underlineSpanList.size(); i++) {
                     contentEditView.getEditableText().removeSpan(underlineSpanList.get(i));
+                }
+                for (int i = 0; i < strikethroughSpanList.size(); i++) {
+                    contentEditView.getEditableText().removeSpan(strikethroughSpanList.get(i));
+                }
+                for (int i = 0; i < foregroundColorSpanList.size(); i++) {
+                    contentEditView.getEditableText().removeSpan(foregroundColorSpanList.get(i));
+                }
+                for (int i = 0; i < backgroundColorSpanList.size(); i++) {
+                    contentEditView.getEditableText().removeSpan(backgroundColorSpanList.get(i));
+                }
+                for (int i = 0; i < superscriptSpanList.size(); i++) {
+                    contentEditView.getEditableText().removeSpan(superscriptSpanList.get(i));
+                }
+                for (int i = 0; i < subscriptSpanList.size(); i++) {
+                    contentEditView.getEditableText().removeSpan(subscriptSpanList.get(i));
                 }
                 boldSpanList.clear();
                 italicSpanList.clear();
                 underlineSpanList.clear();
+                strikethroughSpanList.clear();
+                foregroundColorSpanList.clear();
+                backgroundColorSpanList.clear();
+                superscriptSpanList.clear();
+                subscriptSpanList.clear();
                 isModify = true;
             }
         });
         clearButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(DetailActivity.this,"清除所有格式",Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailActivity.this, "清除所有格式", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -278,21 +434,75 @@ public class DetailActivity extends AppCompatActivity {
         Format format = new Format();
         for (int i = 0;i<boldSpanList.size();i++) {
             Bold bold = new Bold();
-            bold.start = contentEditView.getEditableText().getSpanStart(boldSpanList.get(i));
-            bold.end = contentEditView.getEditableText().getSpanEnd(boldSpanList.get(i));
+            int start = contentEditView.getEditableText().getSpanStart(boldSpanList.get(i));
+            int end = contentEditView.getEditableText().getSpanEnd(boldSpanList.get(i));
+            if (start < 0 || end < 0) { continue; }  //以防数据中有 -1 出现
+            bold.start = start;
+            bold.end = end;
             format.boldList.add(bold);
         }
         for (int i = 0;i<italicSpanList.size();i++) {
             Italic italic = new Italic();
-            italic.start = contentEditView.getEditableText().getSpanStart(italicSpanList.get(i));
-            italic.end = contentEditView.getEditableText().getSpanEnd(italicSpanList.get(i));
+            int start = contentEditView.getEditableText().getSpanStart(italicSpanList.get(i));
+            int end = contentEditView.getEditableText().getSpanEnd(italicSpanList.get(i));
+            if (start < 0 || end < 0) { continue; }
+            italic.start = start;
+            italic.end = end;
             format.italicList.add(italic);
         }
         for (int i = 0;i<underlineSpanList.size();i++) {
             Underline underline = new Underline();
-            underline.start = contentEditView.getEditableText().getSpanStart(underlineSpanList.get(i));
-            underline.end = contentEditView.getEditableText().getSpanEnd(underlineSpanList.get(i));
+            int start = contentEditView.getEditableText().getSpanStart(underlineSpanList.get(i));
+            int end =  contentEditView.getEditableText().getSpanEnd(underlineSpanList.get(i));
+            if (start < 0 || end < 0) { continue; }
+            underline.start = start;
+            underline.end = end;
             format.underlineList.add(underline);
+        }
+        for (int i = 0;i<strikethroughSpanList.size();i++) {
+            Strikethrough strikethrough = new Strikethrough();
+            int start = contentEditView.getEditableText().getSpanStart(strikethroughSpanList.get(i));
+            int end =  contentEditView.getEditableText().getSpanEnd(strikethroughSpanList.get(i));
+            if (start < 0 || end < 0) { continue; }
+            strikethrough.start = start;
+            strikethrough.end = end;
+            format.strikethroughList.add(strikethrough);
+        }
+        for (int i = 0;i<foregroundColorSpanList.size();i++) {
+            ForegroundColor foregroundColor = new ForegroundColor();
+            int start = contentEditView.getEditableText().getSpanStart(foregroundColorSpanList.get(i));
+            int end =  contentEditView.getEditableText().getSpanEnd(foregroundColorSpanList.get(i));
+            if (start < 0 || end < 0) { continue; }
+            foregroundColor.start = start;
+            foregroundColor.end = end;
+            format.foregroundColorList.add(foregroundColor);
+        }
+        for (int i = 0;i<backgroundColorSpanList.size();i++) {
+            BackgroundColor backgroundColor = new BackgroundColor();
+            int start = contentEditView.getEditableText().getSpanStart(backgroundColorSpanList.get(i));
+            int end =  contentEditView.getEditableText().getSpanEnd(backgroundColorSpanList.get(i));
+            if (start < 0 || end < 0) { continue; }
+            backgroundColor.start = start;
+            backgroundColor.end = end;
+            format.backgroundColorList.add(backgroundColor);
+        }
+        for (int i = 0;i<superscriptSpanList.size();i++) {
+            Superscript superscript = new Superscript();
+            int start = contentEditView.getEditableText().getSpanStart(superscriptSpanList.get(i));
+            int end =  contentEditView.getEditableText().getSpanEnd(superscriptSpanList.get(i));
+            if (start < 0 || end < 0) { continue; }
+            superscript.start = start;
+            superscript.end = end;
+            format.superscriptList.add(superscript);
+        }
+        for (int i = 0;i<subscriptSpanList.size();i++) {
+            Subscript subscript = new Subscript();
+            int start = contentEditView.getEditableText().getSpanStart(subscriptSpanList.get(i));
+            int end =  contentEditView.getEditableText().getSpanEnd(subscriptSpanList.get(i));
+            if (start < 0 || end < 0) { continue; }
+            subscript.start = start;
+            subscript.end = end;
+            format.subscriptList.add(subscript);
         }
         Gson gson = new Gson();
         return gson.toJson(format);
@@ -305,9 +515,7 @@ public class DetailActivity extends AppCompatActivity {
         for (int i = 0;i<format.boldList.size();i++) {
             int start = format.boldList.get(i).start;
             int end = format.boldList.get(i).end;
-            if (start < 0 || end < 0) {
-                continue; //以防数据中有小于0的出现...
-            }
+            if (start < 0 || end < 0) { continue; } //以防数据中有 -1 出现
             StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
             contentEditView.getEditableText().setSpan(boldSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             boldSpanList.add(boldSpan);
@@ -315,9 +523,7 @@ public class DetailActivity extends AppCompatActivity {
         for (int i = 0;i<format.italicList.size();i++) {
             int start = format.italicList.get(i).start;
             int end = format.italicList.get(i).end;
-            if (start < 0 || end < 0) {
-                continue;
-            }
+            if (start < 0 || end < 0) { continue; }
             StyleSpan italicSpan = new StyleSpan(Typeface.ITALIC);
             contentEditView.getEditableText().setSpan(italicSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             italicSpanList.add(italicSpan);
@@ -325,12 +531,50 @@ public class DetailActivity extends AppCompatActivity {
         for (int i=0;i<format.underlineList.size();i++) {
             int start = format.underlineList.get(i).start;
             int end = format.underlineList.get(i).end;
-            if (start < 0 || end < 0) {
-                continue;
-            }
+            if (start < 0 || end < 0) { continue; }
             UnderlineSpan underlineSpan = new UnderlineSpan();
             contentEditView.getEditableText().setSpan(underlineSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             underlineSpanList.add(underlineSpan);
+        }
+        for (int i = 0;i<format.strikethroughList.size();i++) {
+            int start = format.strikethroughList.get(i).start;
+            int end = format.strikethroughList.get(i).end;
+            if (start < 0 || end < 0) { continue; }
+            StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
+            contentEditView.getEditableText().setSpan(strikethroughSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            strikethroughSpanList.add(strikethroughSpan);
+        }
+        for (int i = 0;i<format.foregroundColorList.size();i++) {
+            int start = format.foregroundColorList.get(i).start;
+            int end = format.foregroundColorList.get(i).end;
+            if (start < 0 || end < 0) { continue; }
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#0099EE"));
+            contentEditView.getEditableText().setSpan(foregroundColorSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            foregroundColorSpanList.add(foregroundColorSpan);
+        }
+        for (int i = 0;i<format.backgroundColorList.size();i++) {
+            int start = format.backgroundColorList.get(i).start;
+            int end = format.backgroundColorList.get(i).end;
+            if (start < 0 || end < 0) { continue; }
+            BackgroundColorSpan backgroundColorSpan = new BackgroundColorSpan(Color.parseColor("#AC00FF30"));
+            contentEditView.getEditableText().setSpan(backgroundColorSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            backgroundColorSpanList.add(backgroundColorSpan);
+        }
+        for (int i = 0;i<format.superscriptList.size();i++) {
+            int start = format.superscriptList.get(i).start;
+            int end = format.superscriptList.get(i).end;
+            if (start < 0 || end < 0) { continue; }
+            SuperscriptSpan superscriptSpan = new SuperscriptSpan();
+            contentEditView.getEditableText().setSpan(superscriptSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            superscriptSpanList.add(superscriptSpan);
+        }
+        for (int i = 0;i<format.subscriptList.size();i++) {
+            int start = format.subscriptList.get(i).start;
+            int end = format.subscriptList.get(i).end;
+            if (start < 0 || end < 0) { continue; }
+            SubscriptSpan subscriptSpan = new SubscriptSpan();
+            contentEditView.getEditableText().setSpan(subscriptSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            subscriptSpanList.add(subscriptSpan);
         }
     }
 

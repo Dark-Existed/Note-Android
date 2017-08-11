@@ -11,4 +11,14 @@ public class Format {
 
     public List<Underline> underlineList = new ArrayList<>();
 
+    public List<Strikethrough> strikethroughList = new ArrayList<>();
+
+    public List<ForegroundColor> foregroundColorList = new ArrayList<>();
+
+    public List<BackgroundColor> backgroundColorList = new ArrayList<>();
+
+    public List<Superscript> superscriptList = new ArrayList<>();
+
+    public List<Subscript> subscriptList = new ArrayList<>();
+
 }
