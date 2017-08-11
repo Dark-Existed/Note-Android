@@ -11,13 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.note.note.DetailActivity;
 import com.example.note.note.MainActivity;
 import com.example.note.note.R;
 import com.example.note.note.bean.Note;
-import com.example.note.note.bean.Recycled;
 
 import org.litepal.crud.DataSupport;
 
@@ -65,6 +63,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
                 intent.putExtra(DetailActivity.NOTE_TITLE, note.getTitle());
                 intent.putExtra(DetailActivity.NOTE_TIME, note.getTime());
                 intent.putExtra(DetailActivity.NOTE_CONTENT, note.getContent());
+                intent.putExtra(DetailActivity.NOTE_FORMAT, note.getFormat());
                 mContext.startActivity(intent);
             }
         });
@@ -82,13 +81,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
                         Intent intent = new Intent(mContext, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         Note note = mNoteList.get(position);
-                        Recycled recycled = new Recycled();
-                        recycled.setTitle(note.getTitle());
-                        recycled.setTime(note.getTime());
-                        recycled.setContent(note.getContent());
-                        recycled.save();
-
-                        DataSupport.delete(Note.class, note.getId());
+                        note.setRecycled(1);
+                        note.save();
+//                        Recycled recycled = new Recycled();
+//                        recycled.setTitle(note.getTitle());
+//                        recycled.setTime(note.getTime());
+//                        recycled.setContent(note.getContent());
+//                        recycled.save();
+//                        DataSupport.delete(Note.class, note.getId());
                         mContext.startActivity(intent);
                     }
                 });

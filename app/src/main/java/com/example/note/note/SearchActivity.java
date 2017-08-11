@@ -20,7 +20,7 @@ import java.util.List;
 public class SearchActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private List<Note> noteList = DataSupport.order("time desc").find(Note.class);
+    private List<Note> noteList = DataSupport.where("recycled = ?","0").order("time desc").find(Note.class);
     private NoteAdapter adapter;
     private SearchView searchView;
 
@@ -47,13 +47,13 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 if (!TextUtils.isEmpty(newText.trim())) {
                     noteList = DataSupport
-                            .where("title like ? or content like ?", "%"+newText.trim()+"%","%"+newText.trim()+"%")
+                            .where("recycled = ? and title like ? or content like ?","0", "%"+newText.trim()+"%","%"+newText.trim()+"%")
                             .order("time desc")
                             .find(Note.class);
                     adapter = new NoteAdapter(noteList);
                     recyclerView.setAdapter(adapter);
                 } else {
-                    noteList = DataSupport.order("time desc").find(Note.class);
+                    noteList = DataSupport.where("recycled = ?","0").order("time desc").find(Note.class);
                     adapter = new NoteAdapter(noteList);
                     recyclerView.setAdapter(adapter);
                 }
@@ -62,7 +62,5 @@ public class SearchActivity extends AppCompatActivity {
         });
 
     }
-
-
 
 }

@@ -15,7 +15,6 @@ import android.view.MenuItem;
 
 import com.example.note.note.adapter.RecycledAdapter;
 import com.example.note.note.bean.Note;
-import com.example.note.note.bean.Recycled;
 
 import org.litepal.crud.DataSupport;
 
@@ -29,7 +28,7 @@ public class RecycleBinActivity extends AppCompatActivity {
 
     private NavigationView navView;
 
-    private List<Recycled> recycledList = DataSupport.order("time desc").find(Recycled.class);
+    private List<Note> recycledList = DataSupport.order("time desc").where("recycled = ?","1").find(Note.class);
     private RecycledAdapter adapter;
 
     @Override
@@ -104,7 +103,7 @@ public class RecycleBinActivity extends AppCompatActivity {
 
     private void initRecycled() {
         recycledList.clear();
-        recycledList = DataSupport.order("time desc").find(Recycled.class);
+        recycledList = DataSupport.where("recycled = ?","1").order("time desc").find(Note.class);
     }
 
 }
