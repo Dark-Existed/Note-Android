@@ -151,6 +151,7 @@ public class DetailActivity extends AppCompatActivity {
             note.setContent(newContent);
             note.setFormat(transform());
             note.save();
+            Toast.makeText(DetailActivity.this,"已保存",Toast.LENGTH_SHORT).show();
         }
     }
 

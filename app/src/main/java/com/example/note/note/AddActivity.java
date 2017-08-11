@@ -1,6 +1,5 @@
 package com.example.note.note;
 
-
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBar;
@@ -143,6 +142,7 @@ public class AddActivity extends AppCompatActivity {
             note.setFormat(transform());
             note.setRecycled(0);
             note.save();
+            Toast.makeText(AddActivity.this,"已保存",Toast.LENGTH_SHORT).show();
         }
     }
 
