@@ -3,7 +3,6 @@ package com.example.note.note;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,6 +36,7 @@ import com.google.gson.Gson;
 
 import org.litepal.crud.DataSupport;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -158,9 +158,9 @@ public class DetailActivity extends AppCompatActivity {
 
     //获取当前时间
     public String getTime() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
-        return dateFormat.format(date);
+        return simpleDateFormat.format(date);
     }
 
     //初始化各个格式的按钮
