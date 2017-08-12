@@ -1,0 +1,17 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="add_note"
+        android:icon="@drawable/ic_shortcut_add"
+        android:shortcutShortLabel="@string/shortcutShortLabel"
+        android:shortcutLongLabel="@string/shortcutLongLabel">
+        <intent
+            android:action="com.example.note.note.ADD_NOTE"
+            android:targetPackage="com.example.note.note"
+            android:targetClass="com.example.note.note.MainActivity" />
+        <intent
+            android:action="com.example.note.note.ADD_NOTE"
+            android:targetPackage="com.example.note.note"
+            android:targetClass="com.example.note.note.AddActivity" />
+    </shortcut>
+
+</shortcuts>

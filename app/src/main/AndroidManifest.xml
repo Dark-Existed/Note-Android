@@ -11,13 +11,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".LoginActivity">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts"/>
         </activity>
+        <activity android:name=".LoginActivity"/>
         <activity android:name=".SignupActivity" />
         <activity android:name=".InformationActivity" />
         <activity android:name=".SettingActivity" />
