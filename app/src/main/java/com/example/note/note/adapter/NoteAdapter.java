@@ -83,12 +83,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
                         Note note = mNoteList.get(position);
                         note.setRecycled(1);
                         note.save();
-//                        Recycled recycled = new Recycled();
-//                        recycled.setTitle(note.getTitle());
-//                        recycled.setTime(note.getTime());
-//                        recycled.setContent(note.getContent());
-//                        recycled.save();
-//                        DataSupport.delete(Note.class, note.getId());
                         mContext.startActivity(intent);
                     }
                 });

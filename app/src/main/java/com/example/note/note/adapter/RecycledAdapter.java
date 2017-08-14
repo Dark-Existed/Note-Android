@@ -78,12 +78,6 @@ public class RecycledAdapter extends RecyclerView.Adapter<RecycledAdapter.ViewHo
                         Note recycled = mRecycledList.get(position);
                         recycled.setRecycled(0);
                         recycled.save();
-//                        Note note = new Note();
-//                        note.setTitle(recycled.getTitle());
-//                        note.setTime(recycled.getTime());
-//                        note.setContent(recycled.getContent());
-//                        note.save();
-//                        DataSupport.delete(Note.class, recycled.getId());
                         mContext.startActivity(intent);
                     }
                 });
