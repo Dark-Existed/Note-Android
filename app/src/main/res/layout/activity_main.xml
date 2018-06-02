@@ -13,12 +13,9 @@
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <include
                 android:id="@+id/toolbar_main"
                 layout="@layout/toolbar_item"/>
-
-
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.SwipeRefreshLayout

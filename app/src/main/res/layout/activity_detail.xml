@@ -130,9 +130,10 @@
                 android:src="@drawable/ic_format_clear"
                 android:scaleType="center"
                 android:background="?android:selectableItemBackground"/>
-
         </LinearLayout>
 
     </HorizontalScrollView>
+
+
 
 </RelativeLayout>

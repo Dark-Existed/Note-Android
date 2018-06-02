@@ -400,31 +400,26 @@ public class DetailActivity extends AppCompatActivity {
                 //相同位置的取消格式
                 contentEditView.getEditableText().removeSpan(list.get(i));
                 list.remove(i);
-//                Toast.makeText(DetailActivity.this,"执行1",Toast.LENGTH_SHORT).show();
                 return;
             } else if (start < mStart && end > mEnd) {
                 //覆盖过去的
                 contentEditView.getEditableText().setSpan(list.get(i), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                Toast.makeText(DetailActivity.this,"执行2",Toast.LENGTH_SHORT).show();
                 return;
             } else if ((mStart < start && start < mEnd && mEnd < end) || (start < mStart && mStart < end && end < mEnd)) {
                 //部分重叠的
                 int minStart = start < mStart ? start : mStart;
                 int maxEnd = end > mEnd ? end : mEnd;
                 contentEditView.getEditableText().setSpan(list.get(i), minStart, maxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                Toast.makeText(DetailActivity.this, "执行3", Toast.LENGTH_SHORT).show();
                 return;
             } else if ((mStart < start && end < mEnd) || (mStart < start && end < mEnd)) {
                 //在内部 分割成两个
                 contentEditView.getEditableText().setSpan(list.get(i), mStart, start, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 contentEditView.getEditableText().setSpan(span, end, mEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 list.add(span);
-//                Toast.makeText(DetailActivity.this, "执行4", Toast.LENGTH_SHORT).show();
                 return;
             }
         }
         contentEditView.getEditableText().setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        Toast.makeText(DetailActivity.this,"执行5",Toast.LENGTH_SHORT).show();
     }
 
     //将格式转换成json
